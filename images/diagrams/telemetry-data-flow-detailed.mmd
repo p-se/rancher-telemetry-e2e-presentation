@@ -1,0 +1,27 @@
+flowchart TD
+    TS[Telemetry Server]
+    TC[Telemetry Client]
+    PG[PostgreSQL]
+    TST[Telemetry Stats]
+    INF[InfluxDB]
+    GRF[Grafana]
+
+    TC  -- 1. Sent report --> TS
+    TS  -- 2. Persist report --> PG
+    TST -- 3. Request recent reports --> TS
+    TS  -- 4. Request data --> PG
+    PG  -- 5. Return data --> TS
+    TS  -- 6. Return recent reports --> TST
+    TST -- 7. Add reports as points --> INF
+    GRF -- 8. Request data points --> INF
+
+    linkStyle 0 stroke:green;
+    linkStyle 1 stroke:green;
+
+    linkStyle 2 stroke:orange;
+    linkStyle 3 stroke:orange;
+    linkStyle 4 stroke:orange;
+    linkStyle 5 stroke:orange;
+    linkStyle 6 stroke:orange;
+
+    linkStyle 7 stroke:red;

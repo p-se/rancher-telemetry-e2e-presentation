@@ -1,0 +1,21 @@
+sequenceDiagram
+    participant TC as Telemetry Client
+    participant TS as Telemetry Server
+    participant PG as PostgreSQL
+    participant TST as Telemetry Stats
+    participant INF as InfluxDB
+    participant GRF as Grafana
+
+    TC ->> TS: Send Telemetry report
+    TS ->> PG: Persist Telemetry report
+    PG ->> TS: Return success
+    TS ->> TC: Return success
+
+    TST ->> TS: Request Telemetry reports from active clusters
+    TS ->> TST: Return Telemetry reports
+
+    TST ->> INF: Persist Telemetry reports
+    INF ->> TST: Return success
+
+    GRF ->> INF: Request Telemetry reports
+    INF ->> GRF: Return Telemetry reports

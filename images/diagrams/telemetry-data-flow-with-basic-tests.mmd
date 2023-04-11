@@ -1,0 +1,33 @@
+
+flowchart TD
+    TS[Telemetry Server]
+    TC[Telemetry Client]
+    PG[PostgreSQL]
+    TST[Telemetry Stats]
+    INF[InfluxDB]
+    GRF[Grafana]
+
+    TC -- 1 --> TS
+    TS -- 2 --> PG
+    TST -- 3 --> TS
+    TS -- 4 --> PG
+    PG -- 5 --> TS
+    TS -- 6 --> TST
+    TST -- 7 --> INF
+    GRF -- 8 --> INF
+
+    linkStyle 0 stroke:green;
+    linkStyle 1 stroke:green;
+
+    linkStyle 2 stroke:orange;
+    linkStyle 3 stroke:orange;
+    linkStyle 4 stroke:orange;
+    linkStyle 5 stroke:orange;
+    linkStyle 6 stroke:orange;
+
+    linkStyle 7 stroke:red;
+
+    test[/Test/]
+    test --> INF
+    test --> TS
+    test -.-> GRF

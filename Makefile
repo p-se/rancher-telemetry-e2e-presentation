@@ -1,24 +1,46 @@
 main: build
 
-build:
-	docker run --rm -it \
-		-v $$(pwd):/data \
-		--user=1000 \
-		minlag/mermaid-cli \
-			-i e2e-testing.md -o e2e-testing-stable.md
-	sed -i 's/!\[diagram\]/!\[bg height:80%\]/g' e2e-testing-stable.md
+# Want's to be called manually on change of diagrams to speed
+# up the build process of everything else.
+diagrams:
+	for file in images/diagrams/*.mmd; do \
+		echo "Building $$file"; \
+		docker run --rm -it \
+			-v $$(pwd):/data \
+			--user=1000 \
+			minlag/mermaid-cli \
+				-i $${file} -o images/diagrams/$$(basename $${file} .mmd).svg; \
+	done
 
-autobuild:
-	@echo In progress
+build:
+	for file in *.md; do \
+		echo "Building $$file"; \
+		marp --allow-local-files $$file; \
+	done
 
 pdf: build
-	marp --pdf --allow-local-files e2e-testing-stable.md
+	for file in *.md; do \
+		echo "Building $$file"; \
+		marp --pdf --allow-local-files $$file; \
+	done
 
 html: build
-	marp --html e2e-testing-stable.md
+	for file in *.md; do \
+		echo "Building $$file"; \
+		marp --html $$file; \
+	done
 
-all: build
-	marp --html --pdf --allow-local-files e2e-testing-stable.md
+all: build diagrams
+	for file in *.md; do \
+		echo "Building $$file"; \
+		marp --html --pdf --allow-local-files $$file; \
+	done
 
-serve:
+serve: build
 	marp -s .
+
+soft-clean:
+	rm -f *.pdf *.html *.png *.svg
+
+clean: soft-clean
+	find images/diagrams -type f -name '*.svg' -delete
