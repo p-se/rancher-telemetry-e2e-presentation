@@ -12,7 +12,7 @@ Kubernetes provides a command line tool for communicating with a Kubernetes clus
 
 # Kubectl
 
-Command examples:
+## Examples
 
 - `kubectl apply -f deployment.yaml`
 - `kubectl get all`
@@ -54,6 +54,23 @@ helm install rancher rancher-stable/rancher \
   --set replicas=1 \
   --atomic
 ```
+
+---
+
+# Kustomize
+
+Kubernetes native configuration management
+
+![bg right:50% w:90%](images/logos/kustomize.svg)
+
+---
+
+# Kustomize
+
+- Built into `kubectl`
+  - `kubectl apply -k folder/with/kustomization`
+- Template-free
+- Encourages fork/modify/rebase workflow
 
 ---
 
@@ -440,7 +457,7 @@ Bare minimum
 - Visual Studio Code -->
 
 ---
-### Data flow in Rancher Manager Telemetry
+<!-- ### Data flow in Rancher Manager Telemetry
 
 ![w:100%](images/diagrams/telemetry-data-flow-detailed.svg)
 
@@ -448,4 +465,4 @@ Bare minimum
 
 ## Drone for Telemetry
 
-![bg right:70% h:100%](images/screenshots/drone-in-rancher-manager-telemetry.png)
+![bg right:70% h:100%](images/screenshots/drone-in-rancher-manager-telemetry.png) -->
